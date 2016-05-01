@@ -41,6 +41,56 @@ var QuestionsContainer = React.createClass({
 });
 
 
+var ScoreCard = React.createClass({
+	render: function() {
+		return (
+			<div>Score Placeholder</div>
+		)
+	}
+});
+
+
+var ResourcesContainer = React.createClass({
+	render: function() {
+		var resourcesCards = [];
+		this.props.resources.forEach(function(resource, index) {
+				resourcesCards.push(<table className="col-md-4 col-xs-12" key={index}>
+						<tbody>
+							<tr>
+								<th>{resource.firstName + '' + resource.lastName}</th>
+							</tr>
+							<tr>
+								<td>{resource.street} {resource.city}, {resource.state}</td>
+							</tr>
+							<tr>
+								<td>{resource.phone}</td>
+							</tr>
+							<tr>
+								<td>Specialty: {resource.specialty}</td>
+							</tr>
+					</tbody>
+				</table>);
+			}.bind(this));
+		return (
+			<div className="row">{resourcesCards}</div>
+		)
+	}
+});
+
+
+var ResultsContainer = React.createClass({
+	render: function() {
+		return (
+			<div>
+				<h3>Results</h3>
+				<ScoreCard />
+				<ResourcesContainer resources={this.props.resources} />
+			</div>
+		)
+	}
+});
+
+
 var SurveyContainer = React.createClass({
 	render: function() {
 		return (
@@ -49,6 +99,7 @@ var SurveyContainer = React.createClass({
 				<p className="lead">Choose 1 response for each question below. Once you have answered all 9 questions, the result will be explained and we'll suggest some resources that may be helpful for you.</p>
 				<h3 className="text-center">Over the last two weeks, how often have you been bothered by any of the following problems?</h3>
 				<QuestionsContainer questions={this.props.questions} responses={this.props.responses} />
+				<ResultsContainer resources={this.props.resources} />
 			</div>
 		)
 	}
@@ -76,8 +127,14 @@ var RESPONSES = [
 	{content: 'Nearly every day', points: 3}
 ]
 
+var RESOURCES = [
+	{firstName: 'Jaime', lastName: 'Marx', street: '123 1st St.', city: 'New York', state: 'NY', phone: '111-111-1111', specialty: 'Depression'},
+	{firstName: 'Rae', lastName: 'Specie', street: '456 2nd St.', city: 'New York', state: 'NY', phone: '222-222-2222', specialty: 'Depression'},
+	{firstName: 'First', lastName: 'Last', street: '789 3rd Ave.', city: 'New York', state: 'NY', phone: '333-333-3333', specialty: 'Depression'}
+]
+
 
 ReactDOM.render(
-  <SurveyContainer questions={QUESTIONS} responses={RESPONSES} />,
+  <SurveyContainer questions={QUESTIONS} responses={RESPONSES} resources={RESOURCES} />,
   document.getElementById('container')
 );
