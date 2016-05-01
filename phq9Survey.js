@@ -27,7 +27,7 @@ var QuestionCard = React.createClass({
 });
 
 
-var QuestionTable = React.createClass({
+var QuestionsContainer = React.createClass({
 	render: function() {
 		var cards = [];
 		var counter = 0;
@@ -44,7 +44,7 @@ var QuestionTable = React.createClass({
 });
 
 
-var SurveyForm = React.createClass({
+var SurveyContainer = React.createClass({
 	render: function() {
 		console.log("ln49: " + this.props);
 		return (
@@ -52,7 +52,7 @@ var SurveyForm = React.createClass({
 				<h1>Patient Health Questionnaire: Depression Survey</h1>
 				<p className="lead">Choose 1 response for each question below. Once you have answered all 9 questions, the result will be explained and we'll suggest some resources that may be helpful for you.</p>
 				<h3 className="text-center">Over the last two weeks, how often have you been bothered by any of the following problems?</h3>
-				<QuestionTable questions={this.props.questions} responses={this.props.responses} />
+				<QuestionsContainer questions={this.props.questions} responses={this.props.responses} />
 			</div>
 		)
 	}
@@ -82,6 +82,6 @@ var RESPONSES = [
 
 
 ReactDOM.render(
-  <SurveyForm questions={QUESTIONS} responses={RESPONSES} />,
+  <SurveyContainer questions={QUESTIONS} responses={RESPONSES} />,
   document.getElementById('container')
 );
