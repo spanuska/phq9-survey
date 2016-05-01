@@ -2,7 +2,6 @@
 var ResponseCard = React.createClass({
 	render: function() {
 		var rows = [];
-		console.log("ln5: " + this.props);
 		this.props.responses.forEach(function(response, index) {
 			rows.push(<option value={response.points} key={index}>{response.content}</option>)
 		});
@@ -19,7 +18,6 @@ var ResponseCard = React.createClass({
 
 var QuestionCard = React.createClass({
 	render: function() {
-		console.log("ln21: " + this.props);
 		return (
 			<div className="col-md-8 col-xs-12">{this.props.question}</div>
 		)
@@ -31,7 +29,6 @@ var QuestionsContainer = React.createClass({
 	render: function() {
 		var cards = [];
 		var counter = 0;
-		console.log("ln35: " + this.props);
 		this.props.questions.forEach(function(question) {
 			cards.push(<QuestionCard question={question.content} key={counter} />);
 			cards.push(<ResponseCard responses={this.props.responses} key={question.topic + counter}/>);
@@ -46,7 +43,6 @@ var QuestionsContainer = React.createClass({
 
 var SurveyContainer = React.createClass({
 	render: function() {
-		console.log("ln49: " + this.props);
 		return (
 			<div>
 				<h1>Patient Health Questionnaire: Depression Survey</h1>
