@@ -50,14 +50,14 @@ var ScoreCard = React.createClass({
 });
 
 
-var ResourcesContainer = React.createClass({
+var ResourcesCard = React.createClass({
 	render: function() {
 		var resourcesCards = [];
 		this.props.resources.forEach(function(resource, index) {
 				resourcesCards.push(<table className="col-md-4 col-xs-12" key={index}>
 						<tbody>
 							<tr>
-								<th>{resource.firstName + '' + resource.lastName}</th>
+								<th>{resource.firstName + ' ' + resource.lastName}</th>
 							</tr>
 							<tr>
 								<td>{resource.street} {resource.city}, {resource.state}</td>
@@ -84,7 +84,7 @@ var ResultsContainer = React.createClass({
 			<div>
 				<h3>Results</h3>
 				<ScoreCard />
-				<ResourcesContainer resources={this.props.resources} />
+				<ResourcesCard resources={this.props.resources} />
 			</div>
 		)
 	}
