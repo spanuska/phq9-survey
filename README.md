@@ -1,5 +1,5 @@
 # phq9-survey
-Welcome to the PHQ-9 Survery! Take the survey here: http://spanuska.github.io/phq9-survey/phq9Survey.html
+Welcome to the PHQ-9 Survey! Take the survey here: http://spanuska.github.io/phq9-survey/phq9Survey.html - for demonstration purposes ONLY. See the disclaimer below.
 
 ## Run it locally
 In order to get this running locally, clone this repo and start a server from the parent directory. I used a [Python server](http://www.linuxjournal.com/content/tech-tip-really-simple-http-server-python) because it was already installed and let me get to developing faster!. Open your browser to the port you're running on (if using the example given, that's port 8000). Then have fun playing around with the survey!
@@ -32,3 +32,9 @@ To develop this survey, I tried to keep it as simple as possible, especially sin
 ### User Stories
   * I am a patient and I want to take the PHQ-9 depression assessment on my phone, get my score, and an explanation of what that means.
   * If I score moderate depression or higher, I want to be presented with some options for therapists and be able to select one.
+ 
+  
+# Disclaimer!
+This project is for my own learning purposes and is not intended to give any health information or advice. For more information on the survey, visit [here](http://patient.info/doctor/patient-health-questionnaire-phq-9) and for mental health resources, visit these sites:
+  * [National Alliance on Mental Illness](https://www.nami.org/)
+  * [MentalHealth.gov](https://www.mentalhealth.gov/)
