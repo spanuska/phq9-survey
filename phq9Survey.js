@@ -98,15 +98,20 @@ var ScoreCard = React.createClass({
 			this.props.resources.forEach(function(resource, index) {
 					resourcesCards.push(
 						<div className="col-md-4 col-xs-12" key={index}>
-							<table>
-								<tbody>
-									<tr><th>{resource.firstName + ' ' + resource.lastName}</th></tr>
-									<tr><td>{resource.street} {resource.city}, {resource.state}</td></tr>
-									<tr><td>{resource.phone}</td></tr>
-									<tr><td>Specialty: {resource.specialty}</td></tr>
-								</tbody>
-							</table>
-							<button className="btn btn-default" onClick={this.handleClick} key={resource.id} value={resource.lastName}>Select Dr. {resource.lastName}</button>
+							<address>
+							  <strong>{resource.firstName + ' ' + resource.lastName}</strong><br />
+							  {resource.street}<br />
+							  {resource.city}, {resource.state}<br />
+							  <abbr title="Phone">P:</abbr>{resource.phone}<br />
+							  Specialty: {resource.specialty}
+							</address>
+							<button 
+								className="btn btn-default" 
+								onClick={this.handleClick} 
+								key={resource.id} 
+								value={resource.lastName}>
+									Select Dr. {resource.lastName}
+							</button>
 						</div>);
 				}.bind(this));
 		}
