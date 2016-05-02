@@ -91,7 +91,7 @@ var ScoreCard = React.createClass({
 		if (score >= 10) {
 			resourcesCards.push(
 				<div key="choices">
-					<h4>Choose one of the providers below and we'll get you connected with them.</h4>
+					<h4>Choose one of the providers below and we will get you connected with them.</h4>
 					<p className="success">{selectionReceived}</p>
 				</div>
 				)
@@ -163,7 +163,7 @@ var SurveyContainer = React.createClass({
 		return (
 			<div>
 				<h1>Patient Health Questionnaire: Depression Survey</h1>
-				<p className="lead">Choose 1 response for each question below. Once you have answered all 9 questions, the result will be explained and we'll suggest some resources that may be helpful for you.</p>
+				<p className="lead">Choose 1 response for each question below. Once you have answered all 9 questions, the result will be explained and we will suggest some resources that may be helpful for you.</p>
 				<h3 className="text-center">Over the last two weeks, how often have you been bothered by any of the following problems?</h3>
 				<QuestionsContainer questions={this.props.questions} responses={this.props.responses} onChange={this.handleUserAnswer} />
 				<ResultsContainer resources={this.props.resources} scores={this.state.scores}/>
