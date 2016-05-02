@@ -19,7 +19,7 @@ To develop this survey, I tried to keep it as simple as possible, especially sin
 ~~~
   3. Wrote a static version of the mock, with some basic responsiveness built in
   4. Identifed what data belongs in `state`
-    * The responses to the survey questions are definitely part of `state`. The overall survey score is computed from that data, and since it is computed, it does not belone in `state`.
+    * The responses to the survey questions are definitely part of `state`. The overall survey score is computed from that data, and since it is computed, it does not belong in `state`.
   5. Identified places where `state` is changed and from where that data needs to be accessed
     * The `ResponseCard` is where the user selects their response to the survey question, and `ScoreCard` is where that data needs to be displayed. The common parent element to both of those is the top-most component, `SurveyContainer`.
   6. Passed `state` through `props` as needed and added interactivity to the code
