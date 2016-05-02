@@ -68,24 +68,17 @@ var ScoreCard = React.createClass({
 
 
 var ResourcesCard = React.createClass({
+// Depression Severity: 0-4 none, 5-9 mild, 10-14 moderate, 15-19 moderately severe, 20-27 severe
 	render: function() {
 		var resourcesCards = [];
 		this.props.resources.forEach(function(resource, index) {
 				resourcesCards.push(
 					<table className="col-md-4 col-xs-12" key={index}>
 						<tbody>
-							<tr>
-								<th>{resource.firstName + ' ' + resource.lastName}</th>
-							</tr>
-							<tr>
-								<td>{resource.street} {resource.city}, {resource.state}</td>
-							</tr>
-							<tr>
-								<td>{resource.phone}</td>
-							</tr>
-							<tr>
-								<td>Specialty: {resource.specialty}</td>
-							</tr>
+							<tr><th>{resource.firstName + ' ' + resource.lastName}</th></tr>
+							<tr><td>{resource.street} {resource.city}, {resource.state}</td></tr>
+							<tr><td>{resource.phone}</td></tr>
+							<tr><td>Specialty: {resource.specialty}</td></tr>
 					</tbody>
 				</table>);
 			}.bind(this));
