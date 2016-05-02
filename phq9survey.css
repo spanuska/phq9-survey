@@ -5,3 +5,7 @@ body {
 .row {
 	margin: 5px 0px;
 }
+
+.success {
+	background-color: #dff0d8
+}

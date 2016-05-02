@@ -47,6 +47,14 @@ var QuestionsContainer = React.createClass({
 
 
 var ScoreCard = React.createClass({
+	getInitialState: function() {
+		return {selectedResource: undefined}
+	},
+	handleClick: function(event) {
+		console.log({selectedResource: event.target.value})
+		this.setState({selectedResource: event.target.value})
+	},
+
 	render: function() {
 		var score = 0;
 		var scoreDisplay;
@@ -60,7 +68,7 @@ var ScoreCard = React.createClass({
 		} else {
 			scoreDisplay = score
 		}
-//Depression Severity: 0-4 none, 5-9 mild, 10-14 moderate, 15-19 moderately severe, 20-27 severe.
+
 		var explanation;
 		if ( score <= 4 ) {
 			explanation = '- No Depression'
@@ -70,25 +78,37 @@ var ScoreCard = React.createClass({
 			explanation = '- Moderate Depression'
 		} else if ( 15 <= score && score <= 19 ) {
 			explanation = '- Moderately Severe Depression'
-		} else if ( score <= 20 ) {
+		} else if ( score >= 20 ) {
 			explanation = '- Severe Depression'
 		}
 
+		var selectionReceived;
+		if (this.state.selectedResource) {
+			selectionReceived = "Thank you for selecting Dr. " + this.state.selectedResource + ". We will contact you within 24 hours with next steps. Be well."
+		} else {}
+
 		var resourcesCards = [];
 		if (score >= 10) {
+			resourcesCards.push(
+				<div key="choices">
+					<h4>Choose one of the providers below and we'll get you connected with them.</h4>
+					<p className="success">{selectionReceived}</p>
+				</div>
+				)
 			this.props.resources.forEach(function(resource, index) {
 					resourcesCards.push(
-						<table className="col-md-4 col-xs-12" key={index}>
-							<tbody>
-								<tr><th>{resource.firstName + ' ' + resource.lastName}</th></tr>
-								<tr><td>{resource.street} {resource.city}, {resource.state}</td></tr>
-								<tr><td>{resource.phone}</td></tr>
-								<tr><td>Specialty: {resource.specialty}</td></tr>
-						</tbody>
-					</table>);
+						<div className="col-md-4 col-xs-12" key={index}>
+							<table>
+								<tbody>
+									<tr><th>{resource.firstName + ' ' + resource.lastName}</th></tr>
+									<tr><td>{resource.street} {resource.city}, {resource.state}</td></tr>
+									<tr><td>{resource.phone}</td></tr>
+									<tr><td>Specialty: {resource.specialty}</td></tr>
+								</tbody>
+							</table>
+							<button className="btn btn-default" onClick={this.handleClick} key={resource.id} value={resource.lastName}>Select Dr. {resource.lastName}</button>
+						</div>);
 				}.bind(this));
-		} else {
-			
 		}
 		return (
 			<div>
@@ -169,9 +189,9 @@ var RESPONSES = [
 ]
 
 var RESOURCES = [
-	{firstName: 'Jaime', lastName: 'Marx', street: '123 1st St.', city: 'New York', state: 'NY', phone: '111-111-1111', specialty: 'Depression'},
-	{firstName: 'Rae', lastName: 'Specie', street: '456 2nd St.', city: 'New York', state: 'NY', phone: '222-222-2222', specialty: 'Depression'},
-	{firstName: 'First', lastName: 'Last', street: '789 3rd Ave.', city: 'New York', state: 'NY', phone: '333-333-3333', specialty: 'Depression'}
+	{id: 1, firstName: 'Jaime', lastName: 'Marx', street: '123 1st St.', city: 'New York', state: 'NY', phone: '111-111-1111', specialty: 'Depression'},
+	{id: 2, firstName: 'Rae', lastName: 'Specie', street: '456 2nd St.', city: 'New York', state: 'NY', phone: '222-222-2222', specialty: 'Depression'},
+	{id: 3, firstName: 'First', lastName: 'Last', street: '789 3rd Ave.', city: 'New York', state: 'NY', phone: '333-333-3333', specialty: 'Depression'}
 ]
 
 
