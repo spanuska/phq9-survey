@@ -120,15 +120,15 @@ var SurveyContainer = React.createClass({
 
   handleUserAnswer: function(points, topic) {
   	var stateObject = function() {
-      var returnObj = {};
+      var returnObj = this.state.scores;
       if (isNaN(points)) {
       	returnObj[topic] = undefined;
       } else {
-      	returnObj = (this.state.scores[topic] = points)
+      	returnObj[topic] = points
       }
       return returnObj;
-    };
-    this.setState(stateObject); 
+    }.bind(this);
+    this.setState({scores: stateObject()}); 
   },
 
 	render: function() {
