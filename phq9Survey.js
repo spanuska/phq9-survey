@@ -48,8 +48,20 @@ var QuestionsContainer = React.createClass({
 
 var ScoreCard = React.createClass({
 	render: function() {
+		var score = 0;
+		var scoreDisplay;
+		if (Object.keys(this.props.scores).length == 9) {
+			for (var key in this.props.scores) {
+						score += parseInt(this.props.scores[key])
+					}
+				}
+		if (isNaN(score)) {
+			scoreDisplay = '...'
+		} else {
+			scoreDisplay = score
+		}
 		return (
-			<div><h4>{this.props.score}</h4></div>
+			<div><h4>{scoreDisplay}</h4></div>
 		)
 	}
 });
@@ -86,15 +98,10 @@ var ResourcesCard = React.createClass({
 
 var ResultsContainer = React.createClass({
 	render: function() {
-	var score = 0
-	for (var key in this.state) {
-		score += parseInt(this.state[key])	
-	}
-
 		return (
 			<div>
 				<h3>Results</h3>
-				<ScoreCard score={score}/>
+				<ScoreCard scores={this.props.scores}/>
 				<ResourcesCard resources={this.props.resources} />
 			</div>
 		)
@@ -104,11 +111,11 @@ var ResultsContainer = React.createClass({
 
 var SurveyContainer = React.createClass({
 	getInitialState: function() {
-		var results = {}
+		var scores = {}
 		this.props.questions.forEach(function(question){
-			results[question["topic"]] = undefined;
+			scores[question["topic"]] = undefined;
 		});
-		return results;
+		return {scores: scores};
   },
 
   handleUserAnswer: function(points, topic) {
@@ -117,11 +124,10 @@ var SurveyContainer = React.createClass({
       if (isNaN(points)) {
       	returnObj[topic] = undefined;
       } else {
-      	returnObj[topic] = points;
+      	returnObj = (this.state.scores[topic] = points)
       }
       return returnObj;
     };
-
     this.setState(stateObject); 
   },
 
@@ -132,7 +138,7 @@ var SurveyContainer = React.createClass({
 				<p className="lead">Choose 1 response for each question below. Once you have answered all 9 questions, the result will be explained and we'll suggest some resources that may be helpful for you.</p>
 				<h3 className="text-center">Over the last two weeks, how often have you been bothered by any of the following problems?</h3>
 				<QuestionsContainer questions={this.props.questions} responses={this.props.responses} onChange={this.handleUserAnswer} />
-				<ResultsContainer resources={this.props.resources} />
+				<ResultsContainer resources={this.props.resources} scores={this.state.scores}/>
 			</div>
 		)
 	}
