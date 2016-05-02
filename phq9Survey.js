@@ -60,30 +60,28 @@ var ScoreCard = React.createClass({
 		} else {
 			scoreDisplay = score
 		}
-		return (
-			<div><h4>{scoreDisplay}</h4></div>
-		)
-	}
-});
 
-
-var ResourcesCard = React.createClass({
-// Depression Severity: 0-4 none, 5-9 mild, 10-14 moderate, 15-19 moderately severe, 20-27 severe
-	render: function() {
 		var resourcesCards = [];
-		this.props.resources.forEach(function(resource, index) {
-				resourcesCards.push(
-					<table className="col-md-4 col-xs-12" key={index}>
-						<tbody>
-							<tr><th>{resource.firstName + ' ' + resource.lastName}</th></tr>
-							<tr><td>{resource.street} {resource.city}, {resource.state}</td></tr>
-							<tr><td>{resource.phone}</td></tr>
-							<tr><td>Specialty: {resource.specialty}</td></tr>
-					</tbody>
-				</table>);
-			}.bind(this));
+		if (score >= 10) {
+			this.props.resources.forEach(function(resource, index) {
+					resourcesCards.push(
+						<table className="col-md-4 col-xs-12" key={index}>
+							<tbody>
+								<tr><th>{resource.firstName + ' ' + resource.lastName}</th></tr>
+								<tr><td>{resource.street} {resource.city}, {resource.state}</td></tr>
+								<tr><td>{resource.phone}</td></tr>
+								<tr><td>Specialty: {resource.specialty}</td></tr>
+						</tbody>
+					</table>);
+				}.bind(this));
+		} else {
+			
+		}
 		return (
-			<div className="row">{resourcesCards}</div>
+			<div>
+				<h4>{scoreDisplay}</h4>
+				<div className="row">{resourcesCards}</div>
+			</div>
 		)
 	}
 });
@@ -94,8 +92,7 @@ var ResultsContainer = React.createClass({
 		return (
 			<div>
 				<h3>Results</h3>
-				<ScoreCard scores={this.props.scores}/>
-				<ResourcesCard resources={this.props.resources} />
+				<ScoreCard scores={this.props.scores} resources={this.props.resources}/>
 			</div>
 		)
 	}
