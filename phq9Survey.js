@@ -1,13 +1,18 @@
 
 var ResponseCard = React.createClass({
+	onSelect: function(selectEvent){
+    var points = selectEvent.target.value;
+    var topic = this.props.topic
+    this.props.onChange(points, topic);
+	},
 	render: function() {
-		var rows = [];
+		var rows = [<option value={null} key={null}>...</option>];
 		this.props.responses.forEach(function(response, index) {
-			rows.push(<option value={response.points} key={index}>{response.content}</option>)
-		});
+			rows.push(<option ref={index} value={response.points} key={index}>{response.content}</option>)
+		}.bind(this));
 		return (
 			<div className="col-md-4 col-xs-12">
-				<select className="row">
+				<select className="row" onChange={this.onSelect}>
         {rows}
        </select>
       </div>
@@ -31,7 +36,7 @@ var QuestionsContainer = React.createClass({
 		var counter = 0;
 		this.props.questions.forEach(function(question) {
 			cards.push(<QuestionCard question={question.content} key={counter} />);
-			cards.push(<ResponseCard responses={this.props.responses} key={question.topic + counter}/>);
+			cards.push(<ResponseCard responses={this.props.responses} topic={question.topic} key={question.topic} onChange={this.props.onChange} />);
 			counter++
 		}.bind(this));
 		return (
@@ -44,7 +49,7 @@ var QuestionsContainer = React.createClass({
 var ScoreCard = React.createClass({
 	render: function() {
 		return (
-			<div>Score Placeholder</div>
+			<div><h4>{this.props.score}</h4></div>
 		)
 	}
 });
@@ -54,7 +59,8 @@ var ResourcesCard = React.createClass({
 	render: function() {
 		var resourcesCards = [];
 		this.props.resources.forEach(function(resource, index) {
-				resourcesCards.push(<table className="col-md-4 col-xs-12" key={index}>
+				resourcesCards.push(
+					<table className="col-md-4 col-xs-12" key={index}>
 						<tbody>
 							<tr>
 								<th>{resource.firstName + ' ' + resource.lastName}</th>
@@ -80,10 +86,15 @@ var ResourcesCard = React.createClass({
 
 var ResultsContainer = React.createClass({
 	render: function() {
+	var score = 0
+	for (var key in this.state) {
+		score += parseInt(this.state[key])	
+	}
+
 		return (
 			<div>
 				<h3>Results</h3>
-				<ScoreCard />
+				<ScoreCard score={score}/>
 				<ResourcesCard resources={this.props.resources} />
 			</div>
 		)
@@ -92,13 +103,35 @@ var ResultsContainer = React.createClass({
 
 
 var SurveyContainer = React.createClass({
+	getInitialState: function() {
+		var results = {}
+		this.props.questions.forEach(function(question){
+			results[question["topic"]] = undefined;
+		});
+		return results;
+  },
+
+  handleUserAnswer: function(points, topic) {
+  	var stateObject = function() {
+      var returnObj = {};
+      if (isNaN(points)) {
+      	returnObj[topic] = undefined;
+      } else {
+      	returnObj[topic] = points;
+      }
+      return returnObj;
+    };
+
+    this.setState(stateObject); 
+  },
+
 	render: function() {
 		return (
 			<div>
 				<h1>Patient Health Questionnaire: Depression Survey</h1>
 				<p className="lead">Choose 1 response for each question below. Once you have answered all 9 questions, the result will be explained and we'll suggest some resources that may be helpful for you.</p>
 				<h3 className="text-center">Over the last two weeks, how often have you been bothered by any of the following problems?</h3>
-				<QuestionsContainer questions={this.props.questions} responses={this.props.responses} />
+				<QuestionsContainer questions={this.props.questions} responses={this.props.responses} onChange={this.handleUserAnswer} />
 				<ResultsContainer resources={this.props.resources} />
 			</div>
 		)
@@ -107,7 +140,6 @@ var SurveyContainer = React.createClass({
 
 
 var QUESTIONS = [
-// Over the last two weeks, how often have you been bothered by any of the following problems?
 	{ content: 'Little interest or pleasure in doing things', topic: 'pleasure'},
 	{ content: 'Feeling down, depressed, or hopeless', topic: 'feeling down'},
 	{ content: 'Trouble falling or staying asleep, or sleeping too much', topic: 'sleep'},
