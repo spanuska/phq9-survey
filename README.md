@@ -1,5 +1,5 @@
 # phq9-survey
-Welcome to the PHQ-9 Survery!
+Welcome to the PHQ-9 Survery! Take the survey here: http://spanuska.github.io/phq9-survey/phq9Survey.html
 
 ## Run it locally
 In order to get this running locally, clone this repo and start a server from the parent directory. I used a [Python server](http://www.linuxjournal.com/content/tech-tip-really-simple-http-server-python) because it was already installed and let me get to developing faster!. Open your browser to the port you're running on (if using the example given, that's port 8000). Then have fun playing around with the survey!
