@@ -60,6 +60,19 @@ var ScoreCard = React.createClass({
 		} else {
 			scoreDisplay = score
 		}
+//Depression Severity: 0-4 none, 5-9 mild, 10-14 moderate, 15-19 moderately severe, 20-27 severe.
+		var explanation;
+		if ( score <= 4 ) {
+			explanation = '- No Depression'
+		} else if ( 5 <= score && score <= 9 ) {
+			explanation = '- Mild Depression'
+		} else if ( 10 <= score && score <= 14 ) {
+			explanation = '- Moderate Depression'
+		} else if ( 15 <= score && score <= 19 ) {
+			explanation = '- Moderately Severe Depression'
+		} else if ( score <= 20 ) {
+			explanation = '- Severe Depression'
+		}
 
 		var resourcesCards = [];
 		if (score >= 10) {
@@ -79,7 +92,7 @@ var ScoreCard = React.createClass({
 		}
 		return (
 			<div>
-				<h4>{scoreDisplay}</h4>
+				<h4>Score: {scoreDisplay} {explanation}</h4>
 				<div className="row">{resourcesCards}</div>
 			</div>
 		)
