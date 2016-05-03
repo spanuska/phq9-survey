@@ -1,0 +1,26 @@
+{
+  "name": "quartet-health",
+  "version": "1.0.0",
+  "description": "Coding Challenge using React",
+  "main": "phq9Survey.js",
+  "dependencies": {
+    "esformatter-jsx": "^5.0.3"
+  },
+  "devDependencies": {
+    "eslint": "^2.9.0",
+    "eslint-plugin-react": "^5.0.1"
+  },
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/spanuska/phq9-survey.git"
+  },
+  "author": "Skylar Paul",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/spanuska/phq9-survey/issues"
+  },
+  "homepage": "https://github.com/spanuska/phq9-survey#readme"
+}
