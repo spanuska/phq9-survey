@@ -9,12 +9,12 @@ var source = require('vinyl-source-stream');
 gulp.task('babelify', function () {
   return browserify({
     extensions: ['.jsx', '.js'],
-    entries: './app.jsx',
+   entries: 'phq9Survey.js',
   })
     .transform(babelify.configure({ ignore: /(node_modules)/ }))
     .bundle()
     .on("error", function (err) { console.log("Error : " + err.message); })
-    .pipe(source('app.js'))
+    .pipe(source('phq9Survey.js'))
     .pipe(gulp.dest('./output/'));
 });
 
