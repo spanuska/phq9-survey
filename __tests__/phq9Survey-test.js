@@ -7,25 +7,23 @@ var QuestionCard = require('../phq9Survey.js').QuestionCard;
 
 describe('Question Card', function() {
 
-	var question = {
-		content: 'Little interest or pleasure in doing things', 
-		topic: 'pleasure'
-	};
+  var question = {
+    content: 'Little interest or pleasure in doing things', 
+    topic: 'pleasure'
+  };
 
-	describe('the display of the question content', function() {
+  describe('the display of the question content', function() {
 
-		it('should display the text of the question.', function() {
+    it('should display the text of the question.', function() {
 
-                  var renderer = TestUtils.createRenderer();
-                  renderer.render( <QuestionCard question={question.content} />);
-                  var output = renderer.getRenderOutput();
-                  console.log(output);
+      var renderer = TestUtils.createRenderer();
+      renderer.render( <QuestionCard question={question.content} />);
+      var output = renderer.getRenderOutput();
 
+      expect(output.props.children).toEqual(question.content);
 
-                  expect(output.props.children).toEqual(question.content);
+    })
 
-		})
-
-	});
+  });
 
 })
