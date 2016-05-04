@@ -14,7 +14,8 @@ var ResponseCard = React.createClass({
         <option 
             ref={index} 
             value={response.points} 
-            key={index}>{response.content}
+            key={index}>
+              {response.content}
         </option>)
     }.bind(this));
     return (
@@ -43,7 +44,14 @@ var QuestionsContainer = React.createClass({
     var counter = 0;
     this.props.questions.forEach(function(question) {
       cards.push(<QuestionCard question={question.content} key={counter} />);
-      cards.push(<ResponseCard responses={this.props.responses} topic={question.topic} key={question.topic} onChange={this.props.onChange} />);
+      cards.push(
+        <ResponseCard 
+          responses={this.props.responses} 
+          topic={question.topic} 
+          key={question.topic} 
+          onChange={this.props.onChange} 
+        />
+      );
       counter++
     }.bind(this));
     return (
@@ -179,7 +187,11 @@ var SurveyContainer = React.createClass({
         <h1>Patient Health Questionnaire: Depression Survey</h1>
         <p className="lead">Choose 1 response for each question below. Once you have answered all 9 questions, the result will be explained and we will suggest some resources that may be helpful for you.</p>
         <h3 className="text-center">Over the last two weeks, how often have you been bothered by any of the following problems?</h3>
-        <QuestionsContainer questions={this.props.questions} responses={this.props.responses} onChange={this.handleUserAnswer} />
+        <QuestionsContainer 
+          questions={this.props.questions} 
+          responses={this.props.responses} 
+          onChange={this.handleUserAnswer}
+        />
         <ResultsContainer resources={this.props.resources} scores={this.state.scores}/>
     </div>
     )
