@@ -19128,6 +19128,45 @@ var QuestionsContainer = React.createClass({
 var ScoreCard = React.createClass({
   displayName: 'ScoreCard',
 
+  render: function render() {
+    var scoreDisplay;
+    if (isNaN(this.props.calculatedScore)) {
+      scoreDisplay = '...';
+    } else {
+      scoreDisplay = this.props.calculatedScore;
+    }
+
+    var explanation;
+    if (this.props.calculatedScore <= 4) {
+      explanation = '- No Depression';
+    } else if (5 <= this.props.calculatedScore && this.props.calculatedScore <= 9) {
+      explanation = '- Mild Depression';
+    } else if (10 <= this.props.calculatedScore && this.props.calculatedScore <= 14) {
+      explanation = '- Moderate Depression';
+    } else if (15 <= this.props.calculatedScore && this.props.calculatedScore <= 19) {
+      explanation = '- Moderately Severe Depression';
+    } else if (this.props.calculatedScore >= 20) {
+      explanation = '- Severe Depression';
+    }
+
+    return React.createElement(
+      'div',
+      null,
+      React.createElement(
+        'h4',
+        null,
+        'Score: ',
+        scoreDisplay,
+        ' ',
+        explanation
+      )
+    );
+  }
+});
+
+var ResourcesCard = React.createClass({
+  displayName: 'ResourcesCard',
+
   getInitialState: function getInitialState() {
     return {
       selectedResource: undefined
@@ -19138,41 +19177,14 @@ var ScoreCard = React.createClass({
       selectedResource: event.currentTarget.value
     });
   },
-
   render: function render() {
-    var score = 0;
-    var scoreDisplay;
-    if (Object.keys(this.props.scores).length == 9) {
-      for (var key in this.props.scores) {
-        score += parseInt(this.props.scores[key]);
-      }
-    }
-    if (isNaN(score)) {
-      scoreDisplay = '...';
-    } else {
-      scoreDisplay = score;
-    }
-
-    var explanation;
-    if (score <= 4) {
-      explanation = '- No Depression';
-    } else if (5 <= score && score <= 9) {
-      explanation = '- Mild Depression';
-    } else if (10 <= score && score <= 14) {
-      explanation = '- Moderate Depression';
-    } else if (15 <= score && score <= 19) {
-      explanation = '- Moderately Severe Depression';
-    } else if (score >= 20) {
-      explanation = '- Severe Depression';
-    }
-
     var selectionReceived;
     if (this.state.selectedResource) {
       selectionReceived = "Thank you for selecting Dr. " + this.state.selectedResource + ". We will contact you within 24 hours with next steps. Be well.";
     }
 
     var resourcesCards = [];
-    if (score >= 10) {
+    if (this.props.calculatedScore >= 10) {
       resourcesCards.push(React.createElement(
         'div',
         { key: 'choices' },
@@ -19229,17 +19241,10 @@ var ScoreCard = React.createClass({
         ));
       }.bind(this));
     }
+
     return React.createElement(
       'div',
       null,
-      React.createElement(
-        'h4',
-        null,
-        'Score: ',
-        scoreDisplay,
-        ' ',
-        explanation
-      ),
       React.createElement(
         'div',
         { className: 'row' },
@@ -19252,6 +19257,17 @@ var ScoreCard = React.createClass({
 var ResultsContainer = React.createClass({
   displayName: 'ResultsContainer',
 
+  calculatedScore: function calculatedScore() {
+    var score = 0;
+    var allQuestionsAnswered = Object.keys(this.props.scores).length == 9;
+    if (allQuestionsAnswered) {
+      for (var key in this.props.scores) {
+        score += parseInt(this.props.scores[key]);
+      }
+    }
+    return score;
+  },
+
   render: function render() {
     return React.createElement(
       'div',
@@ -19261,7 +19277,8 @@ var ResultsContainer = React.createClass({
         null,
         'Results'
       ),
-      React.createElement(ScoreCard, { scores: this.props.scores, resources: this.props.resources })
+      React.createElement(ScoreCard, { scores: this.props.scores, calculatedScore: this.calculatedScore() }),
+      React.createElement(ResourcesCard, { resources: this.props.resources, calculatedScore: this.calculatedScore() })
     );
   }
 });

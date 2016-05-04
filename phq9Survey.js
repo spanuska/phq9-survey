@@ -60,6 +60,37 @@ var QuestionsContainer = React.createClass({
 
 
 var ScoreCard = React.createClass({
+  render: function() {   
+    var scoreDisplay;
+    if (isNaN(this.props.calculatedScore)) {
+      scoreDisplay = '...'
+    } else {
+      scoreDisplay = this.props.calculatedScore
+    }
+
+    var explanation;
+    if (this.props.calculatedScore <= 4) {
+      explanation = '- No Depression'
+    } else if (5 <= this.props.calculatedScore && this.props.calculatedScore <= 9) {
+      explanation = '- Mild Depression'
+    } else if (10 <= this.props.calculatedScore && this.props.calculatedScore <= 14) {
+      explanation = '- Moderate Depression'
+    } else if (15 <= this.props.calculatedScore && this.props.calculatedScore <= 19) {
+      explanation = '- Moderately Severe Depression'
+    } else if (this.props.calculatedScore >= 20) {
+      explanation = '- Severe Depression'
+    }
+
+    return (
+      <div>
+        <h4>Score: {scoreDisplay} {explanation}</h4>
+    </div>
+    )
+  }
+});
+
+
+var ResourcesCard = React.createClass({
   getInitialState: function() {
     return {
       selectedResource: undefined
@@ -72,39 +103,13 @@ var ScoreCard = React.createClass({
   },
 
   render: function() {
-    var score = 0;
-    var scoreDisplay;
-    if (Object.keys(this.props.scores).length == 9) {
-      for (var key in this.props.scores) {
-        score += parseInt(this.props.scores[key])
-      }
-    }
-    if (isNaN(score)) {
-      scoreDisplay = '...'
-    } else {
-      scoreDisplay = score
-    }
-
-    var explanation;
-    if (score <= 4) {
-      explanation = '- No Depression'
-    } else if (5 <= score && score <= 9) {
-      explanation = '- Mild Depression'
-    } else if (10 <= score && score <= 14) {
-      explanation = '- Moderate Depression'
-    } else if (15 <= score && score <= 19) {
-      explanation = '- Moderately Severe Depression'
-    } else if (score >= 20) {
-      explanation = '- Severe Depression'
-    }
-
     var selectionReceived;
     if (this.state.selectedResource) {
       selectionReceived = "Thank you for selecting Dr. " + this.state.selectedResource + ". We will contact you within 24 hours with next steps. Be well."
     }
 
     var resourcesCards = [];
-    if (score >= 10) {
+    if (this.props.calculatedScore >= 10) {
       resourcesCards.push(
         <div key="choices">
             <h4>Choose one of the providers below and we will get you connected with them.</h4>
@@ -131,22 +136,33 @@ var ScoreCard = React.createClass({
         </div>);
       }.bind(this));
     }
+
     return (
       <div>
-        <h4>Score: {scoreDisplay} {explanation}</h4>
         <div className="row">{resourcesCards}</div>
-    </div>
+      </div>
     )
   }
 });
 
-
 var ResultsContainer = React.createClass({
+  calculatedScore: function() {
+    var score = 0;
+    var allQuestionsAnswered = Object.keys(this.props.scores).length == 9;
+    if (allQuestionsAnswered) {
+      for (var key in this.props.scores) {
+        score += parseInt(this.props.scores[key])
+      }
+    }
+    return score;
+  },
+
   render: function() {
     return (
       <div>
         <h3>Results</h3>
-        <ScoreCard scores={this.props.scores} resources={this.props.resources}/>
+        <ScoreCard scores={this.props.scores} calculatedScore={this.calculatedScore()} />
+        <ResourcesCard resources={this.props.resources} calculatedScore={this.calculatedScore()} />
     </div>
     )
   }
@@ -190,7 +206,7 @@ var SurveyContainer = React.createClass({
           responses={this.props.responses} 
           onChange={this.handleUserAnswer}
         />
-        <ResultsContainer resources={this.props.resources} scores={this.state.scores}/>
+        <ResultsContainer resources={this.props.resources} scores={this.state.scores} />
     </div>
     )
   }
