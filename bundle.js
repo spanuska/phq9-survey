@@ -19126,8 +19126,7 @@ var ScoreCard = React.createClass({
 		return { selectedResource: undefined };
 	},
 	handleClick: function handleClick(event) {
-		console.log({ selectedResource: event.target.value });
-		this.setState({ selectedResource: event.target.value });
+		this.setState({ selectedResource: event.currentTarget.value });
 	},
 
 	render: function render() {
@@ -19160,7 +19159,7 @@ var ScoreCard = React.createClass({
 		var selectionReceived;
 		if (this.state.selectedResource) {
 			selectionReceived = "Thank you for selecting Dr. " + this.state.selectedResource + ". We will contact you within 24 hours with next steps. Be well.";
-		} else {}
+		}
 
 		var resourcesCards = [];
 		if (score >= 10) {
