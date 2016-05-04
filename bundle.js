@@ -19108,11 +19108,14 @@ var QuestionsContainer = React.createClass({
 
   render: function render() {
     var cards = [];
-    var counter = 0;
-    this.props.questions.forEach(function (question) {
-      cards.push(React.createElement(QuestionCard, { question: question.content, key: counter }));
-      cards.push(React.createElement(ResponseCard, { responses: this.props.responses, topic: question.topic, key: question.topic, onChange: this.props.onChange }));
-      counter++;
+    this.props.questions.forEach(function (question, index) {
+      cards.push(React.createElement(QuestionCard, { question: question.content, key: index }));
+      cards.push(React.createElement(ResponseCard, {
+        responses: this.props.responses,
+        topic: question.topic,
+        key: question.topic,
+        onChange: this.props.onChange
+      }));
     }.bind(this));
     return React.createElement(
       'div',
@@ -19310,7 +19313,11 @@ var SurveyContainer = React.createClass({
         { className: 'text-center' },
         'Over the last two weeks, how often have you been bothered by any of the following problems?'
       ),
-      React.createElement(QuestionsContainer, { questions: this.props.questions, responses: this.props.responses, onChange: this.handleUserAnswer }),
+      React.createElement(QuestionsContainer, {
+        questions: this.props.questions,
+        responses: this.props.responses,
+        onChange: this.handleUserAnswer
+      }),
       React.createElement(ResultsContainer, { resources: this.props.resources, scores: this.state.scores })
     );
   }

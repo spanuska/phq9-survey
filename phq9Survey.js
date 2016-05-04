@@ -41,9 +41,8 @@ var QuestionCard = React.createClass({
 var QuestionsContainer = React.createClass({
   render: function() {
     var cards = [];
-    var counter = 0;
-    this.props.questions.forEach(function(question) {
-      cards.push(<QuestionCard question={question.content} key={counter} />);
+    this.props.questions.forEach(function(question, index) {
+      cards.push(<QuestionCard question={question.content} key={index} />);
       cards.push(
         <ResponseCard 
           responses={this.props.responses} 
@@ -52,7 +51,6 @@ var QuestionsContainer = React.createClass({
           onChange={this.props.onChange} 
         />
       );
-      counter++
     }.bind(this));
     return (
       <div className="row">{cards}</div>
