@@ -101,19 +101,21 @@ var ResourcesCard = React.createClass({
       selectedResource: event.currentTarget.value
     })
   },
+  notifySelection: function() {
+    var notification;
+    if (this.state.selectedResource) {
+     notification = "Thank you for selecting Dr. " + this.state.selectedResource + ". We will contact you within 24 hours with next steps. Be well."
+    }
+    return notification;
+  },
 
   render: function() {
-    var selectionReceived;
-    if (this.state.selectedResource) {
-      selectionReceived = "Thank you for selecting Dr. " + this.state.selectedResource + ". We will contact you within 24 hours with next steps. Be well."
-    }
-
     var resourcesCards = [];
     if (this.props.calculatedScore >= 10) {
       resourcesCards.push(
         <div key="choices">
             <h4>Choose one of the providers below and we will get you connected with them.</h4>
-            <p className="success">{selectionReceived}</p>
+            <p className="success">{this.notifySelection()}</p>
         </div>
       )
       this.props.resources.forEach(function(resource, index) {
@@ -146,7 +148,7 @@ var ResourcesCard = React.createClass({
 });
 
 var ResultsContainer = React.createClass({
-  calculatedScore: function() {
+  calculateScore: function() {
     var score = 0;
     var allQuestionsAnswered = Object.keys(this.props.scores).length == 9;
     if (allQuestionsAnswered) {
@@ -161,8 +163,8 @@ var ResultsContainer = React.createClass({
     return (
       <div>
         <h3>Results</h3>
-        <ScoreCard scores={this.props.scores} calculatedScore={this.calculatedScore()} />
-        <ResourcesCard resources={this.props.resources} calculatedScore={this.calculatedScore()} />
+        <ScoreCard scores={this.props.scores} calculatedScore={this.calculateScore()} />
+        <ResourcesCard resources={this.props.resources} calculatedScore={this.calculateScore()} />
     </div>
     )
   }

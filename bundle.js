@@ -19177,12 +19177,15 @@ var ResourcesCard = React.createClass({
       selectedResource: event.currentTarget.value
     });
   },
-  render: function render() {
-    var selectionReceived;
+  notifySelection: function notifySelection() {
+    var notification;
     if (this.state.selectedResource) {
-      selectionReceived = "Thank you for selecting Dr. " + this.state.selectedResource + ". We will contact you within 24 hours with next steps. Be well.";
+      notification = "Thank you for selecting Dr. " + this.state.selectedResource + ". We will contact you within 24 hours with next steps. Be well.";
     }
+    return notification;
+  },
 
+  render: function render() {
     var resourcesCards = [];
     if (this.props.calculatedScore >= 10) {
       resourcesCards.push(React.createElement(
@@ -19196,7 +19199,7 @@ var ResourcesCard = React.createClass({
         React.createElement(
           'p',
           { className: 'success' },
-          selectionReceived
+          this.notifySelection()
         )
       ));
       this.props.resources.forEach(function (resource, index) {
@@ -19257,7 +19260,7 @@ var ResourcesCard = React.createClass({
 var ResultsContainer = React.createClass({
   displayName: 'ResultsContainer',
 
-  calculatedScore: function calculatedScore() {
+  calculateScore: function calculateScore() {
     var score = 0;
     var allQuestionsAnswered = Object.keys(this.props.scores).length == 9;
     if (allQuestionsAnswered) {
@@ -19277,8 +19280,8 @@ var ResultsContainer = React.createClass({
         null,
         'Results'
       ),
-      React.createElement(ScoreCard, { scores: this.props.scores, calculatedScore: this.calculatedScore() }),
-      React.createElement(ResourcesCard, { resources: this.props.resources, calculatedScore: this.calculatedScore() })
+      React.createElement(ScoreCard, { scores: this.props.scores, calculatedScore: this.calculateScore() }),
+      React.createElement(ResourcesCard, { resources: this.props.resources, calculatedScore: this.calculateScore() })
     );
   }
 });
