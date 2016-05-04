@@ -19056,253 +19056,264 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 
 var ResponseCard = React.createClass({
-	displayName: 'ResponseCard',
+  displayName: 'ResponseCard',
 
-	onSelect: function onSelect(selectEvent) {
-		var points = selectEvent.target.value;
-		var topic = this.props.topic;
-		this.props.onChange(points, topic);
-	},
-	render: function render() {
-		var rows = [React.createElement(
-			'option',
-			{ value: null, key: null },
-			'...'
-		)];
-		this.props.responses.forEach(function (response, index) {
-			rows.push(React.createElement(
-				'option',
-				{ ref: index, value: response.points, key: index },
-				response.content
-			));
-		}.bind(this));
-		return React.createElement(
-			'div',
-			{ className: 'col-md-4 col-xs-12' },
-			React.createElement(
-				'select',
-				{ className: 'row', onChange: this.onSelect },
-				rows
-			)
-		);
-	}
+  onSelect: function onSelect(selectEvent) {
+    var points = selectEvent.target.value;
+    var topic = this.props.topic;
+    this.props.onChange(points, topic);
+  },
+  render: function render() {
+    var rows = [React.createElement(
+      'option',
+      { value: null, key: null },
+      '...'
+    )];
+    this.props.responses.forEach(function (response, index) {
+      rows.push(React.createElement(
+        'option',
+        {
+          ref: index,
+          value: response.points,
+          key: index },
+        response.content
+      ));
+    }.bind(this));
+    return React.createElement(
+      'div',
+      { className: 'col-md-4 col-xs-12' },
+      React.createElement(
+        'select',
+        { className: 'row', onChange: this.onSelect },
+        rows
+      )
+    );
+  }
 });
 
 var QuestionCard = React.createClass({
-	displayName: 'QuestionCard',
+  displayName: 'QuestionCard',
 
-	render: function render() {
-		return React.createElement(
-			'div',
-			{ className: 'col-md-8 col-xs-12' },
-			this.props.question
-		);
-	}
+  render: function render() {
+    return React.createElement(
+      'div',
+      { className: 'col-md-8 col-xs-12' },
+      this.props.question
+    );
+  }
 });
 
 var QuestionsContainer = React.createClass({
-	displayName: 'QuestionsContainer',
+  displayName: 'QuestionsContainer',
 
-	render: function render() {
-		var cards = [];
-		var counter = 0;
-		this.props.questions.forEach(function (question) {
-			cards.push(React.createElement(QuestionCard, { question: question.content, key: counter }));
-			cards.push(React.createElement(ResponseCard, { responses: this.props.responses, topic: question.topic, key: question.topic, onChange: this.props.onChange }));
-			counter++;
-		}.bind(this));
-		return React.createElement(
-			'div',
-			{ className: 'row' },
-			cards
-		);
-	}
+  render: function render() {
+    var cards = [];
+    var counter = 0;
+    this.props.questions.forEach(function (question) {
+      cards.push(React.createElement(QuestionCard, { question: question.content, key: counter }));
+      cards.push(React.createElement(ResponseCard, { responses: this.props.responses, topic: question.topic, key: question.topic, onChange: this.props.onChange }));
+      counter++;
+    }.bind(this));
+    return React.createElement(
+      'div',
+      { className: 'row' },
+      cards
+    );
+  }
 });
 
 var ScoreCard = React.createClass({
-	displayName: 'ScoreCard',
+  displayName: 'ScoreCard',
 
-	getInitialState: function getInitialState() {
-		return { selectedResource: undefined };
-	},
-	handleClick: function handleClick(event) {
-		this.setState({ selectedResource: event.currentTarget.value });
-	},
+  getInitialState: function getInitialState() {
+    return {
+      selectedResource: undefined
+    };
+  },
+  handleClick: function handleClick(event) {
+    this.setState({
+      selectedResource: event.currentTarget.value
+    });
+  },
 
-	render: function render() {
-		var score = 0;
-		var scoreDisplay;
-		if (Object.keys(this.props.scores).length == 9) {
-			for (var key in this.props.scores) {
-				score += parseInt(this.props.scores[key]);
-			}
-		}
-		if (isNaN(score)) {
-			scoreDisplay = '...';
-		} else {
-			scoreDisplay = score;
-		}
+  render: function render() {
+    var score = 0;
+    var scoreDisplay;
+    if (Object.keys(this.props.scores).length == 9) {
+      for (var key in this.props.scores) {
+        score += parseInt(this.props.scores[key]);
+      }
+    }
+    if (isNaN(score)) {
+      scoreDisplay = '...';
+    } else {
+      scoreDisplay = score;
+    }
 
-		var explanation;
-		if (score <= 4) {
-			explanation = '- No Depression';
-		} else if (5 <= score && score <= 9) {
-			explanation = '- Mild Depression';
-		} else if (10 <= score && score <= 14) {
-			explanation = '- Moderate Depression';
-		} else if (15 <= score && score <= 19) {
-			explanation = '- Moderately Severe Depression';
-		} else if (score >= 20) {
-			explanation = '- Severe Depression';
-		}
+    var explanation;
+    if (score <= 4) {
+      explanation = '- No Depression';
+    } else if (5 <= score && score <= 9) {
+      explanation = '- Mild Depression';
+    } else if (10 <= score && score <= 14) {
+      explanation = '- Moderate Depression';
+    } else if (15 <= score && score <= 19) {
+      explanation = '- Moderately Severe Depression';
+    } else if (score >= 20) {
+      explanation = '- Severe Depression';
+    }
 
-		var selectionReceived;
-		if (this.state.selectedResource) {
-			selectionReceived = "Thank you for selecting Dr. " + this.state.selectedResource + ". We will contact you within 24 hours with next steps. Be well.";
-		}
+    var selectionReceived;
+    if (this.state.selectedResource) {
+      selectionReceived = "Thank you for selecting Dr. " + this.state.selectedResource + ". We will contact you within 24 hours with next steps. Be well.";
+    }
 
-		var resourcesCards = [];
-		if (score >= 10) {
-			resourcesCards.push(React.createElement(
-				'div',
-				{ key: 'choices' },
-				React.createElement(
-					'h4',
-					null,
-					'Choose one of the providers below and we will get you connected with them.'
-				),
-				React.createElement(
-					'p',
-					{ className: 'success' },
-					selectionReceived
-				)
-			));
-			this.props.resources.forEach(function (resource, index) {
-				resourcesCards.push(React.createElement(
-					'div',
-					{ className: 'col-md-4 col-xs-12', key: index },
-					React.createElement(
-						'address',
-						null,
-						React.createElement(
-							'strong',
-							null,
-							resource.firstName + ' ' + resource.lastName
-						),
-						React.createElement('br', null),
-						resource.street,
-						React.createElement('br', null),
-						resource.city,
-						', ',
-						resource.state,
-						React.createElement('br', null),
-						React.createElement(
-							'abbr',
-							{ title: 'Phone' },
-							'P:'
-						),
-						resource.phone,
-						React.createElement('br', null),
-						'Specialty: ',
-						resource.specialty
-					),
-					React.createElement(
-						'button',
-						{
-							className: 'btn btn-default',
-							onClick: this.handleClick,
-							key: resource.id,
-							value: resource.lastName },
-						'Select Dr. ',
-						resource.lastName
-					)
-				));
-			}.bind(this));
-		}
-		return React.createElement(
-			'div',
-			null,
-			React.createElement(
-				'h4',
-				null,
-				'Score: ',
-				scoreDisplay,
-				' ',
-				explanation
-			),
-			React.createElement(
-				'div',
-				{ className: 'row' },
-				resourcesCards
-			)
-		);
-	}
+    var resourcesCards = [];
+    if (score >= 10) {
+      resourcesCards.push(React.createElement(
+        'div',
+        { key: 'choices' },
+        React.createElement(
+          'h4',
+          null,
+          'Choose one of the providers below and we will get you connected with them.'
+        ),
+        React.createElement(
+          'p',
+          { className: 'success' },
+          selectionReceived
+        )
+      ));
+      this.props.resources.forEach(function (resource, index) {
+        resourcesCards.push(React.createElement(
+          'div',
+          { className: 'col-md-4 col-xs-12', key: index },
+          React.createElement(
+            'address',
+            null,
+            React.createElement(
+              'strong',
+              null,
+              resource.firstName + ' ' + resource.lastName
+            ),
+            React.createElement('br', null),
+            resource.street,
+            React.createElement('br', null),
+            resource.city,
+            ', ',
+            resource.state,
+            React.createElement('br', null),
+            React.createElement(
+              'abbr',
+              { title: 'Phone' },
+              'P:'
+            ),
+            resource.phone,
+            React.createElement('br', null),
+            'Specialty: ',
+            resource.specialty
+          ),
+          React.createElement(
+            'button',
+            {
+              className: 'btn btn-default',
+              onClick: this.handleClick,
+              key: resource.id,
+              value: resource.lastName },
+            'Select Dr. ',
+            resource.lastName
+          )
+        ));
+      }.bind(this));
+    }
+    return React.createElement(
+      'div',
+      null,
+      React.createElement(
+        'h4',
+        null,
+        'Score: ',
+        scoreDisplay,
+        ' ',
+        explanation
+      ),
+      React.createElement(
+        'div',
+        { className: 'row' },
+        resourcesCards
+      )
+    );
+  }
 });
 
 var ResultsContainer = React.createClass({
-	displayName: 'ResultsContainer',
+  displayName: 'ResultsContainer',
 
-	render: function render() {
-		return React.createElement(
-			'div',
-			null,
-			React.createElement(
-				'h3',
-				null,
-				'Results'
-			),
-			React.createElement(ScoreCard, { scores: this.props.scores, resources: this.props.resources })
-		);
-	}
+  render: function render() {
+    return React.createElement(
+      'div',
+      null,
+      React.createElement(
+        'h3',
+        null,
+        'Results'
+      ),
+      React.createElement(ScoreCard, { scores: this.props.scores, resources: this.props.resources })
+    );
+  }
 });
 
 var SurveyContainer = React.createClass({
-	displayName: 'SurveyContainer',
+  displayName: 'SurveyContainer',
 
-	getInitialState: function getInitialState() {
-		var scores = {};
-		this.props.questions.forEach(function (question) {
-			scores[question["topic"]] = undefined;
-		});
-		return { scores: scores };
-	},
+  getInitialState: function getInitialState() {
+    var scores = {};
+    this.props.questions.forEach(function (question) {
+      scores[question["topic"]] = undefined;
+    });
+    return {
+      scores: scores
+    };
+  },
 
-	handleUserAnswer: function handleUserAnswer(points, topic) {
-		var stateObject = function () {
-			var returnObj = this.state.scores;
-			if (isNaN(points)) {
-				returnObj[topic] = undefined;
-			} else {
-				returnObj[topic] = points;
-			}
-			return returnObj;
-		}.bind(this);
-		this.setState({ scores: stateObject() });
-	},
+  handleUserAnswer: function handleUserAnswer(points, topic) {
+    var stateObject = function () {
+      var returnObj = this.state.scores;
+      if (isNaN(points)) {
+        returnObj[topic] = undefined;
+      } else {
+        returnObj[topic] = points;
+      }
+      return returnObj;
+    }.bind(this);
+    this.setState({
+      scores: stateObject()
+    });
+  },
 
-	render: function render() {
-		return React.createElement(
-			'div',
-			null,
-			React.createElement(
-				'h1',
-				null,
-				'Patient Health Questionnaire: Depression Survey'
-			),
-			React.createElement(
-				'p',
-				{ className: 'lead' },
-				'Choose 1 response for each question below. Once you have answered all 9 questions, the result will be explained and we will suggest some resources that may be helpful for you.'
-			),
-			React.createElement(
-				'h3',
-				{ className: 'text-center' },
-				'Over the last two weeks, how often have you been bothered by any of the following problems?'
-			),
-			React.createElement(QuestionsContainer, { questions: this.props.questions, responses: this.props.responses, onChange: this.handleUserAnswer }),
-			React.createElement(ResultsContainer, { resources: this.props.resources, scores: this.state.scores })
-		);
-	}
+  render: function render() {
+    return React.createElement(
+      'div',
+      null,
+      React.createElement(
+        'h1',
+        null,
+        'Patient Health Questionnaire: Depression Survey'
+      ),
+      React.createElement(
+        'p',
+        { className: 'lead' },
+        'Choose 1 response for each question below. Once you have answered all 9 questions, the result will be explained and we will suggest some resources that may be helpful for you.'
+      ),
+      React.createElement(
+        'h3',
+        { className: 'text-center' },
+        'Over the last two weeks, how often have you been bothered by any of the following problems?'
+      ),
+      React.createElement(QuestionsContainer, { questions: this.props.questions, responses: this.props.responses, onChange: this.handleUserAnswer }),
+      React.createElement(ResultsContainer, { resources: this.props.resources, scores: this.state.scores })
+    );
+  }
 });
 
 module.exports.QuestionCard = QuestionCard;
