@@ -38,7 +38,8 @@
       "es6"
     ],
     "unmockedModulePathPatterns": [
-      "react"
+      "react",
+      "fbjs"
     ],
     "collectCoverage": true
   },
@@ -62,7 +63,7 @@
   "scripts": {
     "test": "jest",
     "start": "gulp serve",
-    "bundle": "browserify -t [ babelify ] phq9Survey.js -o bundle.js"
+    "bundle": "browserify -t [ babelify ] entry.js -o bundle.js"
   },
   "repository": {
     "type": "git",
