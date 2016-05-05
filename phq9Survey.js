@@ -19,8 +19,8 @@ var ResponseCard = React.createClass({
         </option>)
     }.bind(this));
     return (
-      <div className="col-md-4 col-xs-12">
-        <select className="row" onChange={this.onSelect}>
+      <div className="col-md-4 col-xs-8">
+        <select onChange={this.onSelect}>
             {rows}
         </select>
       </div>
@@ -42,8 +42,9 @@ var QuestionsContainer = React.createClass({
   render: function() {
     var cards = [];
     this.props.questions.forEach(function(question, index) {
-      cards.push(<QuestionCard question={question.content} key={index} />);
-      cards.push(
+      var card = [];
+      card.push(<QuestionCard question={question.content} key={index} />);
+      card.push(
         <ResponseCard 
           responses={this.props.responses} 
           topic={question.topic} 
@@ -51,6 +52,7 @@ var QuestionsContainer = React.createClass({
           onChange={this.props.onChange} 
         />
       );
+      cards.push(<div className="row" key={index}>{card}</div>)
     }.bind(this));
     return (
       <div className="row">{cards}</div>

@@ -19081,10 +19081,10 @@ var ResponseCard = React.createClass({
     }.bind(this));
     return React.createElement(
       'div',
-      { className: 'col-md-4 col-xs-12' },
+      { className: 'col-md-4 col-xs-8' },
       React.createElement(
         'select',
-        { className: 'row', onChange: this.onSelect },
+        { onChange: this.onSelect },
         rows
       )
     );
@@ -19109,13 +19109,19 @@ var QuestionsContainer = React.createClass({
   render: function render() {
     var cards = [];
     this.props.questions.forEach(function (question, index) {
-      cards.push(React.createElement(QuestionCard, { question: question.content, key: index }));
-      cards.push(React.createElement(ResponseCard, {
+      var card = [];
+      card.push(React.createElement(QuestionCard, { question: question.content, key: index }));
+      card.push(React.createElement(ResponseCard, {
         responses: this.props.responses,
         topic: question.topic,
         key: question.topic,
         onChange: this.props.onChange
       }));
+      cards.push(React.createElement(
+        'div',
+        { className: 'row', key: index },
+        card
+      ));
     }.bind(this));
     return React.createElement(
       'div',
