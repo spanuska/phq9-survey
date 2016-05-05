@@ -10,15 +10,15 @@ Welcome to the PHQ-9 Survey! Take the survey here: http://spanuska.github.io/phq
 To develop this survey, I tried to keep it as simple as possible, especially since this is my first React app. The steps I took are roughly as follows: 
   1. Generated a mock based on the user story given (see below)
   2. Identified components based on the mock. The initial outline, which changed a bit as I went along, is below:
-~~~
-  SurveyContainer
-    QuestionsContainer
-      QuestionCard
-      ResponseCard
-    ResultsContainer
-      ScoreCard
-      ResourcesCard
-~~~
+    ~~~
+      SurveyContainer
+        QuestionsContainer
+          QuestionCard
+          ResponseCard
+        ResultsContainer
+          ScoreCard
+          ResourcesCard
+    ~~~
   3. Wrote a static version of the mock, with some basic responsiveness built in
   4. Identifed what data belongs in `state`
     * The responses to the survey questions are definitely part of `state`. The overall survey score is computed from that data, and since it is computed, it does not belong in `state`.
